@@ -6,8 +6,8 @@ namespace WebApplication2.Controllers
     {
         public HandleReportRequestValidator()
         {
-            RuleFor(i => i.From).GreaterThanOrEqualTo(DateTime.UtcNow);
-            RuleFor(i => i.To).GreaterThanOrEqualTo(DateTime.UtcNow);
+            RuleFor(i => i.From).GreaterThanOrEqualTo(new DateTime(1970, 01, 01));
+            RuleFor(i => i.To).GreaterThanOrEqualTo(new DateTime(1970, 01, 01));
         }
     }
 }

@@ -17,6 +17,7 @@ namespace WebApplication2.Controllers
             this.mediator = mediator;
         }
 
+        // curl -X GET http://localhost:5075/api/reports2
         [HttpGet]
         public async Task<ActionResult<string[]>> GetAllReports()
         {
@@ -25,9 +26,11 @@ namespace WebApplication2.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<string[]>> SelectReportsByRule(HandleReportsRequest request)
+        // curl -X GET http://localhost:5075/api/reports2/2022-01-01/2022-02-02
+        [HttpGet("{start}/{end}")]
+        public async Task<ActionResult<string[]>> HandleReports(DateTime start, DateTime end)
         {
+            var request = new HandleReportsRequest(start, end);
             var result = await mediator.Send(request);
             return Ok(result);
         }

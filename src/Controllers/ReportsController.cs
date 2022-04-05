@@ -16,21 +16,23 @@ namespace WebApplication2.Controllers
             this.reportService = reportService;
         }
 
+        // curl -X GET http://localhost:5075/api/reports
         [HttpGet]
         public async Task<ActionResult<string[]>> GetReports()
         {
             return Ok(await reportService.GetReports());
         }
 
-        [HttpPost]
-        public async Task<ActionResult<string[]>> HandleReports(HandleReportsRequest request)
+        // curl -X GET http://localhost:5075/api/reports/2022-01-01/2022-02-02
+        [HttpGet("{start}/{end}")]
+        public async Task<ActionResult<string[]>> HandleReports(DateTime start, DateTime end)
         {
             if (!ModelState.IsValid)
             {
                 throw new InvalidOperationException();
             }
 
-            return Ok(await reportService.HandleReports(request.From, request.To));
+            return Ok(await reportService.HandleReports(start, end));
         }
     }
 
