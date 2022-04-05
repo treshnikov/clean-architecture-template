@@ -20,7 +20,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<string[]>> GetReports()
         {
-            return Ok(await reportService.GetReports());
+            return Ok(await reportService.Get());
         }
 
         // curl -X GET http://localhost:5075/api/reports/2022-01-01/2022-02-02
@@ -32,7 +32,7 @@ namespace WebApplication2.Controllers
                 throw new InvalidOperationException();
             }
 
-            return Ok(await reportService.HandleReports(start, end));
+            return Ok(await reportService.GetBetween(start, end));
         }
     }
 

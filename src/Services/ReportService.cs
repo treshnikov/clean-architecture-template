@@ -8,12 +8,12 @@
         {
             this.dbContext = dbContext;
         }
-        public Task<string[]> GetReports()
+        public Task<string[]> Get()
         {
             return Task.FromResult(new string[] { "report #1", "report #2" });
         }
 
-        public Task<string[]> HandleReports(DateTime from, DateTime to)
+        public Task<string[]> GetBetween(DateTime from, DateTime to)
         {
             return Task.FromResult(new string[] { "report #1", "report #2" });
 

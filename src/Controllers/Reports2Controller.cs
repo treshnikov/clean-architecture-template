@@ -19,7 +19,7 @@ namespace WebApplication2.Controllers
 
         // curl -X GET http://localhost:5075/api/reports2
         [HttpGet]
-        public async Task<ActionResult<string[]>> GetAllReports()
+        public async Task<ActionResult<string[]>> Get()
         {
             var request = new GetAllReportsRequest();
             var result = await mediator.Send(request);
@@ -28,9 +28,9 @@ namespace WebApplication2.Controllers
 
         // curl -X GET http://localhost:5075/api/reports2/2022-01-01/2022-02-02
         [HttpGet("{start}/{end}")]
-        public async Task<ActionResult<string[]>> HandleReports(DateTime start, DateTime end)
+        public async Task<ActionResult<string[]>> GetBetween(DateTime start, DateTime end)
         {
-            var request = new HandleReportsRequest(start, end);
+            var request = new GetReportsBetweenRequest(start, end);
             var result = await mediator.Send(request);
             return Ok(result);
         }

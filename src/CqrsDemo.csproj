@@ -14,8 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Reports\Dto\" />
-    <Folder Include="Reports\Exceptions\" />
+    <Folder Include="App\Reports\Commands\" />
+    <Folder Include="App\Reports\Dto\" />
+    <Folder Include="App\Reports\Exceptions\" />
   </ItemGroup>
 
 </Project>
