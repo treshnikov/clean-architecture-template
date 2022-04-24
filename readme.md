@@ -10,7 +10,7 @@
  - Navigate to `Taskly.WebApi` directory and run `dotnet build` and `dotnet run`.
 
  ## Uasge
-Using SwaggerUI or Postman do the following:
+Using SwaggerUI or Postman and perform the following steps:
  - Invoke `/api/v1/auth/register` and pass `Name`, `Password` and `Email` to register a new user.
  - Use `/api/v1/auth/token` to get user token.
  - Pass the token to the `/api/v1/Note` requests in `Authentication` attribute in header of requests. For instance, `"Authentication": "Bearer %your-token%"`
