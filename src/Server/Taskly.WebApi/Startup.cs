@@ -13,6 +13,9 @@ using Taskly.WebApi.Controllers;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Taskly.Application.Jwt;
+using Microsoft.AspNetCore.SpaServices.Extensions;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Serilog;
 
 namespace Taskly.WebApi;
 
@@ -45,9 +48,25 @@ public class Startup
             });
         });
 
+        services.AddSpaStaticFiles(configuration =>
+        {
+            configuration.RootPath = Configuration["SpaPath"] ?? "../../../../../Client/build";
+            Log.Logger.Information($"SPA static files directory for Production mode is set to {configuration.RootPath}");
+        });
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+                    // add an option that token can be extracted not only from "Authentication: Bearer ..." header but also from Request Cookies
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            context.Token = context.Request.Cookies[AuthenticationController.JwtCookiesKey];
+                            return Task.CompletedTask;
+                        }
+                    };
+
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -57,6 +76,9 @@ public class Startup
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JwtToken"])),
                         ValidateIssuerSigningKey = true,
                     };
+
+
+
                 });
         services.AddVersionedApiExplorer(opttions =>
         {
@@ -75,8 +97,13 @@ public class Startup
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TodoApi v1"));
+        }
+
+        app.UseStaticFiles();
+        if (!env.IsDevelopment())
+        {
+            Log.Logger.Information("Release mode is set. SPA static files will be used from the directory predefined above (see log messages below).");
+            app.UseSpaStaticFiles();
         }
 
         app.UseSwagger();
@@ -86,8 +113,7 @@ public class Startup
             {
                 conf.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
             }
-            conf.RoutePrefix = String.Empty;
-            conf.SwaggerEndpoint("swagger/v1/swagger.json", "NotesAPI");
+            conf.RoutePrefix = env.IsDevelopment() ? "" : "swagger";
         });
         app.UseCustomExceptionHandler();
         app.UseRouting();
@@ -101,5 +127,11 @@ public class Startup
         {
             endpoints.MapControllers();
         });
+
+        app.UseSpa(spa =>
+       {
+           spa.Options.SourcePath = Configuration["SpaPath"] ?? "../../../../../Client/build";
+           Log.Logger.Information($"spa.Options.SourcePath = {spa.Options.SourcePath}");
+       });
     }
 }
