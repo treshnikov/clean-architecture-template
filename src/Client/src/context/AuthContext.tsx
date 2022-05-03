@@ -1,12 +1,14 @@
 import { createContext } from 'react'
 
-type LoginFunc = (jwtToken: string) => void;
+type LoginFunc = (data: FormData) => void;
 type LogoutFunc = () => void;
-const loginMock = (jwtToken: string) => { }
+type RequestFunc =  (input: RequestInfo, init?: RequestInit) => any
+const loginMock = (data: FormData) => { }
 const logoutMock = () => { }
+const requestMock = (input: RequestInfo, init?: RequestInit) => {return {}}
 
 class AuthContextClass {
-  jwt: string = '';
+  request: RequestFunc = requestMock
   login: LoginFunc = loginMock;
   logout: LogoutFunc = logoutMock;
   isAuthenticated: Boolean = false;

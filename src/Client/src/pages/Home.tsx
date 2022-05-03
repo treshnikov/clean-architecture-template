@@ -1,31 +1,27 @@
+import { Container } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext';
 
 export const Home: React.FunctionComponent = () => {
   const [content, setContent] = useState<string>('');
-  const auth = useContext(AuthContext)
+  const {request} = useContext(AuthContext)
 
   useEffect(() => {
-    
-    async function fetchUsers(token: string) {
-      const users = await fetch("/api/v1/auth/user",
-        {
-          method: 'get',
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
 
-      setContent(await users.text())
+    async function fetchUsers() {
+      const users = await request("/api/v1/auth/user")
+      setContent(JSON.stringify(users))
     }
 
-    fetchUsers(auth.jwt);
-  }, [auth.jwt])
+    fetchUsers();
+  }, [request])
 
   return (
     <div className='container'>
-      <h1>Home</h1>
-      {content}
+      <Container maxWidth="lg">
+        <h1>Home</h1>
+        {content}
+      </Container>
     </div>
   )
 }
