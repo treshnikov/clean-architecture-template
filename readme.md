@@ -6,6 +6,8 @@ The template uses the following technologies:
 * [React](https://reactjs.org/), [i18next](https://react.i18next.com/), [React Router](https://reactrouter.com/)
 * [JWT Authentication](https://jwt.io/), [WebAPi Versioning](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Versioning/)
 
+https://github.com/treshnikov/clean-architecture-template/blob/main/img/demo.gif
+
 # Build and Run
 ## Debug mode
 - Navigate to `src/Server/Taskly.WebApi` and run `dotnet build` and then `dotnet run`.
