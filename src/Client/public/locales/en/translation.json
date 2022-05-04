@@ -9,6 +9,11 @@
     "user_has_been_registered_successfully": "User has been registered successfully",
     "settings" : "Settings",
     "users": "Users",
-    "home": "Home"
+    "home": "Home",
+    "page": "Page",
+    "hello": "Hello",
+    "users-welcome": "Navigate to this page to see all registered users.",
+    "settings-welcome": "Navigate to the setting page.",
+    "change-lang": "Change the app language."
 }
   
