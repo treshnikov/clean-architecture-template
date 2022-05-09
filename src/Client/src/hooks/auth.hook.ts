@@ -33,9 +33,8 @@ export const useAuth = () => {
     const request = useCallback(async (input: RequestInfo, init?: RequestInit) => {
         if (!init) {
             init = {}
-            init.headers = {}
-            init.headers = { Authorization: `Bearer ${jwt}` }
         }
+        init.headers = { Authorization: `Bearer ${jwt}` }
 
         let response
         try {
@@ -48,13 +47,13 @@ export const useAuth = () => {
             throw (ex)
         }
 
-        const json = await response.json()
-
         if (response.status === 401 || response.status === 403) {
             // It's supposed that the client shouldn't send requests that bring it to the 401|403 states.
             // Nevertheless, if the client got this it might mean that the token has expired or the client requests a resource that requires higher privileges which means the login procedure must be repeated  
             logout()
         }
+
+        const json = await response.json()
 
         if (response.ok) {
             return json;
