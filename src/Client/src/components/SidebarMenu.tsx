@@ -1,15 +1,14 @@
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemText } from "@mui/material";
 import { t } from "i18next";
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import MenuIcon from '@mui/icons-material/Menu';
+import { useAuth } from "../hooks/auth.hook";
 
 export const SidebarMenu: React.FunctionComponent = () => {
     const [toggled, setToggled] = useState<boolean>(false)
     const navigate = useNavigate()
-    const { logout } = useContext(AuthContext)
+    const { logout } = useAuth()
 
     const list = () => (
         <Box
@@ -25,6 +24,10 @@ export const SidebarMenu: React.FunctionComponent = () => {
                 <ListItem button key={t('users') as string}
                     onClick={() => navigate("/users")}>
                     <ListItemText primary={t('users') as string} />
+                </ListItem>
+                <ListItem button key={t('units') as string}
+                    onClick={() => navigate("/units")}>
+                    <ListItemText primary={t('units') as string} />
                 </ListItem>
             </List>
             <Divider />
@@ -43,16 +46,18 @@ export const SidebarMenu: React.FunctionComponent = () => {
 
     return (
         <div>
-            <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-                onClick={() => setToggled(true)}
-            >
-                <FontAwesomeIcon icon={solid('bars')} />
-            </IconButton>
+            <div >
+                <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 1 }}
+                    onClick={() => setToggled(true)}
+                >
+                    <MenuIcon />
+                </IconButton>
+            </div>
             <Drawer
                 anchor={'left'}
                 open={toggled}

@@ -10,10 +10,8 @@ namespace Taskly.DAL.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users");
-            builder.HasKey(u => u.Id);
             builder.HasIndex(u => u.Id).IsUnique();
-            builder.HasIndex(u => u.Name).IsUnique();
-            builder.HasIndex(u => u.Email).IsUnique();
+            builder.HasIndex(u => new {u.Name, u.Email}).IsUnique();
         }
     }
 }

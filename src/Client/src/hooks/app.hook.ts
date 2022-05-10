@@ -1,19 +1,11 @@
 import { createTheme, Theme } from '@mui/material';
-import { enUS, ruRU } from '@mui/x-data-grid';
+import { enUS, ruRU } from 'handsontable/i18n';
 import { useCallback, useState } from 'react'
 import i18n from '../i18n';
 
-const themeEn = createTheme({
-    palette: {
-        primary: { main: '#1976d2' },
-    },
-}, enUS);
+const themeEn = createTheme({}, enUS);
 
-const themeRu = createTheme({
-    palette: {
-        primary: { main: '#1976d2' },
-    },
-}, ruRU);
+const themeRu = createTheme({}, ruRU);
 
 export const useApp = () => {
     const [, setTheme] = useState<Theme>(themeEn)

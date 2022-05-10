@@ -1,74 +1,59 @@
-import { Box } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../context/AuthContext';
+import React, { useEffect, useState } from 'react'
 import { UserVm } from "../models/UserVm";
-import { DataGrid, GridColDef, GridEventListener, GridEvents, GridRowModel, GridRowParams, MuiEvent } from '@mui/x-data-grid';
+import { HotTable } from '@handsontable/react';
+import { registerAllModules } from 'handsontable/registry';
+import { useTranslation } from 'react-i18next';
+import { Container } from '@mui/material';
+import { useAuth } from '../hooks/auth.hook';
+registerAllModules();
 
 export const Users: React.FunctionComponent = () => {
-  const { request } = useContext(AuthContext)
+  const { request } = useAuth()
   const [users, setUsers] = useState<UserVm[]>([])
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function populateUsers() {
-      const json = await request("/api/v1/auth/users")
+      const json = await request("/api/v1/users")
       setUsers(json)
     }
     populateUsers()
   }, [request])
 
-  const columns: GridColDef[] = [
+  const headers = ['ID', t('name'), t('email'), t('position'), t('unit')]
+  const hiddenColumns = { columns: [0] }
+  const columns = [
+    { data: "id", editor: false },
+    { data: "name", editor: false },
+    { data: "email", editor: false },
+    { data: "position", editor: false },
     {
-      field: 'id',
-      headerName: 'ID',
-      minWidth: 150
-    },
-    {
-      field: 'name',
-      headerName: 'Name',
-      minWidth: 250,
-      editable: true,
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      minWidth: 250,
-      editable: true,
+      data: 'unit',
+      type: 'dropdown',
+      strict: true,
+      editor: false,
+      source: ['IT']
     }
-  ];
-
-  const handleRowEditStart = (params: GridRowParams, event: MuiEvent<React.SyntheticEvent>) => {
-    //event.defaultMuiPrevented = true;
-    //console.log("handleRowEditStart", params, event)
-  };
-
-  const handleRowEditStop: GridEventListener<GridEvents.rowEditStop> = (params, event) => {
-    //event.defaultMuiPrevented = true;
-    //console.log("handleRowEditStop", params, event)
-  };
-
-  const processRowUpdate = async (newRow: GridRowModel) => {
-    //console.log("processRowUpdate", newRow)
-    return { ...newRow, isNew: false };
-  };
+  ]
+  const colWidths = [100, 250, 220, 300, 400]
 
   return (
-    <div>
-      <Box>
-        <div style={{ width: '100%' }}>
-          <DataGrid
-            autoHeight
-            rows={users}
-            columns={columns}
-            density='compact'
-            pageSize={100}
-            rowsPerPageOptions={[25, 50, 100]}
-            editMode='row'
-            onRowEditStart={handleRowEditStart}
-            onRowEditStop={handleRowEditStop}
-            processRowUpdate={processRowUpdate}
-          />
-        </div>
-      </Box>
-    </div>
+    <Container>
+      <h3>{t('users')}</h3>
+      <HotTable
+        fixedRowsTop={0}
+        columnSorting={true}
+        data={users}
+        colHeaders={headers}
+        columns={columns}
+        colWidths={colWidths}
+        wordWrap={false}
+        rowHeaders={true}
+        fillHandle={false}
+        //manualColumnResize={true}
+        hiddenColumns={hiddenColumns}
+        //afterChange={(changes: CellChange[] | null, source: ChangeSource) => { console.log("afterChange", changes) }}
+      />
+    </Container>
   )
 }

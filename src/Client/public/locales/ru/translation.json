@@ -14,5 +14,15 @@
     "hello": "Привет",
     "users-welcome": "Перейдите на эту страницу чтобы просмотреть всех пользователей.",
     "settings-welcome": "Перейти на страницу настроек.",
-    "change-lang": "Изменить язык приложения."
+    "change-lang": "Изменить язык приложения.",
+    "unit": "Отдел",
+    "units": "Отделы",
+    "units-welcome": "Список отделов.",
+    "expand-all": "Развернуть всё",
+    "collapse-all": "Свернуть всё",
+    "position": "Должность",
+    "language": "Язык",
+    "import-users-and-units-records": "Импорт списка пользователей и отделов из файлов users.json и departments.json.",
+    "import": "Импорт"
+
 }   

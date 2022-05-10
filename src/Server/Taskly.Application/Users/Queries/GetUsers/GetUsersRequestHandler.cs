@@ -3,8 +3,9 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Taskly.Application.Interfaces;
+using Taskly.Domain;
 
-namespace Taskly.Application.Auth.Queries.GetUsers
+namespace Taskly.Application.Users
 {
     public class GetUsersRequestHandler : IRequestHandler<GetUsersRequest, IEnumerable<UserVm>>
     {
@@ -18,11 +19,16 @@ namespace Taskly.Application.Auth.Queries.GetUsers
         }
         public async Task<IEnumerable<UserVm>> Handle(GetUsersRequest request, CancellationToken cancellationToken)
         {
-            return await _dbContext
+            var users = await _dbContext
                 .Users
+                .Include(u => u.UserUnits).ThenInclude(u => u.Unit)
                 .AsNoTracking()
-                .ProjectTo<UserVm>(_mapper.ConfigurationProvider)
+                .OrderBy(u => u.Name)
+                .Select(u => UserVm.FromUser(u))
                 .ToListAsync(cancellationToken: cancellationToken);
+            
+            return users;
         }
+
     }
 }
