@@ -12,7 +12,7 @@ export const Settings: React.FunctionComponent = () => {
 
   return (
 
-    <Container>
+    <div className='page-container'>
 
       <Card
         sx={{ marginTop: 1 }}>
@@ -43,7 +43,7 @@ export const Settings: React.FunctionComponent = () => {
         <CardActions>
           <Button variant='contained' onClick={async e => {
 
-            await request("/api/v1/users/import",
+            await request("/api/v1/admin/import",
               {
                 method: 'post',
               });
@@ -52,6 +52,6 @@ export const Settings: React.FunctionComponent = () => {
         </CardActions>
       </Card>
 
-    </Container>
+    </div>
   )
 }
