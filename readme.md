@@ -20,7 +20,7 @@ This solution provides a single Page Application with React and ASP.NET Core fol
 - Navigate to `dist` directory and run `Taskly.WebApi.exe`
 
 ## Visual Studio Code tasks 
-- The project contains predefined `tasks.json` and `launch.json` files. See them to build and run client and server both in Debug and PRelease modes. 
+- The project contains predefined `tasks.json` and `launch.json` files. See them to build and run client and server both in Debug and Release modes. 
 
 # Settings
 ## Server
@@ -31,12 +31,3 @@ Server stores its settings in `appsettings.json` file:
 
 ## Client
 - In the development mode specify the `proxy` key in `src/Client/package.json`. This key must refer to the server URI. The default value is `https://localhost:5000`.
-
-# Using Swagger / Postman
-For testing purposes, you can use SwaggerUI or Postman.
-By default, the API documentation is available at the address `https://localhost:5000/swagger/index.html`.
-Follow the next steps to perform requests:
-- Register a new user `/api/v1/auth/register` or use default user with name password `admin`.
-- Send a `/api/v1/auth/token` request to get the user token.
-- Pass the token to the request header `"Authentication": "Bearer %your-token%"` for other requests.
-- Send other requests using this token.
